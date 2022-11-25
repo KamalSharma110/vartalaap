@@ -1,8 +1,8 @@
+import AuthForm from "./components/AuthForm";
+
 function App() {
   return (
-    <div>
-      Hello world!
-    </div>
+    <AuthForm />
   );
 }
 
