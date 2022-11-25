@@ -1,0 +1,37 @@
+.nav{
+    display: flex;
+    padding: 1em;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2f2d52;
+    color: white;
+}
+
+.nav>span{
+    font-weight: 700;
+}
+
+
+.nav_user-info{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.85rem;
+}
+
+.nav_user-info img{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nav_user-info button{
+    color: white;
+    background-color: #5f5b8e;
+    border: none;
+    padding: 4px 7px;
+    box-shadow: 0 0 5px 1px #00000026;
+    font-size: .7rem;
+    cursor: pointer;
+}

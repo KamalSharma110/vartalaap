@@ -1,0 +1,14 @@
+.searchbar input{
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: #5f5b8e;
+    color: white;
+    padding: 0.8em;
+    border-bottom: 1px solid #96909038;
+    
+}
+
+::placeholder{
+    color: white;
+}

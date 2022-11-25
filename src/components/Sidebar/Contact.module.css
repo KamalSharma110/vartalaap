@@ -1,0 +1,17 @@
+.contact{
+    display: flex;
+    color: white;
+    gap: 1em;
+    padding: 0.5em;
+    align-items: center;
+}
+
+.contact img{
+    /* width: 32px;
+    height: 32px; */
+    border-radius: 50%;
+}
+
+.contact-info span{
+    display: block;
+}

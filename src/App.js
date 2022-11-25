@@ -1,8 +1,10 @@
-import AuthForm from "./components/AuthForm";
+// import AuthForm from "./components/AuthForm";
+import Layout from "./components/Layout";
 
 function App() {
   return (
-    <AuthForm />
+    // <AuthForm />
+    <Layout />
   );
 }
 

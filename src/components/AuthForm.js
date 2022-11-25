@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import classes from './AuthForm.module.css';
+import Add from '../img/addAvatar.png';
 
 const AuthForm = () => {
     const [showLogin, setShowLogin] = useState(true);
@@ -17,7 +18,15 @@ const AuthForm = () => {
                 {!showLogin && <input type='text' placeholder='display name' />}
                 <input type='email' placeholder="email" />
                 <input type='password' placeholder="password" />
-                {!showLogin && <input type='file'/>}
+                {!showLogin && 
+                <React.Fragment>
+                    <input id='avatar' type='file' style={{display: "none"}}/>
+                    <label htmlFor='avatar'>
+                        <img src={Add} alt='add avatar icon'/>
+                        <span>Add an avatar</span>
+                    </label>
+                </React.Fragment>
+                }
                 <button>{`${showLogin ? 'Sign In' : 'Sign Up'}`}</button>
             </form>
 
