@@ -1,5 +1,5 @@
 import Sidebar from './Sidebar/SideBar';
-import ChatArea from './ChatArea';
+import ChatArea from './ChatArea/ChatArea.js';
 
 import classes from './Layout.module.css';
 

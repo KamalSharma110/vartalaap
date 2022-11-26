@@ -1,0 +1,49 @@
+.chatinput{
+    background-color: #f4efef;
+}
+
+.chatinput_form{
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    align-items: center;
+}
+
+.chatinput_form>input{
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 75%;
+}
+
+.chatinput_form>input::placeholder{
+    color:lightgray;
+    font-size: 1.02rem;
+}
+
+.chatinput_form__actions{
+    display: flex;
+    gap: 0.5em;
+    width: 20%;
+    align-items: center;
+}
+
+.chatinput_form__actions label{
+
+    height: 24px;
+}
+
+.chatinput_form__actions img{
+    width: 24px;
+}
+
+button{
+    border: none;
+    background-color: #6577bd;
+    color: white;
+    padding: 0.5em 1em;
+}
+
+label, button{
+    cursor: pointer;
+}

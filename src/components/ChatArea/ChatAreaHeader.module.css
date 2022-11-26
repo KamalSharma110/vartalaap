@@ -1,0 +1,21 @@
+.chatareaheader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5f5b8e;
+    color: lightgray;
+    padding: 1em;
+}
+
+.chatareaheader_options{
+    display: flex;
+    gap: 0.5em;
+    height: 32px;
+    align-items: center;
+}
+
+.chatareaheader_options img{
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}

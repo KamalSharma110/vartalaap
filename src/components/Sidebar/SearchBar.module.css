@@ -6,9 +6,8 @@
     color: white;
     padding: 0.8em;
     border-bottom: 1px solid #96909038;
-    
 }
 
 ::placeholder{
-    color: white;
+    color: lightgray;
 }

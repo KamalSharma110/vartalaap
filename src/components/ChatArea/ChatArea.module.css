@@ -1,0 +1,7 @@
+.chatarea{
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #dedcf6;
+}

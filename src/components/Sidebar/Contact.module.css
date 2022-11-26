@@ -4,6 +4,12 @@
     gap: 1em;
     padding: 0.5em;
     align-items: center;
+    cursor: pointer;
+    transition: all .5s;
+}
+
+.contact:hover{
+    background-color: #2f2d52;
 }
 
 .contact img{
@@ -14,4 +20,12 @@
 
 .contact-info span{
     display: block;
+}
+
+.contact-info span:nth-child(1){
+    font-weight: 500;
+}
+
+.contact-info span:nth-child(2){
+    font-size: 0.8rem;
 }
