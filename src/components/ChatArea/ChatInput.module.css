@@ -37,7 +37,7 @@
     width: 24px;
 }
 
-button{
+.chatinput_form__actions button{
     border: none;
     background-color: #6577bd;
     color: white;

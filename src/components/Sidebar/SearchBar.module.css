@@ -8,6 +8,6 @@
     border-bottom: 1px solid #96909038;
 }
 
-::placeholder{
+.searchbar input::placeholder{
     color: lightgray;
 }
