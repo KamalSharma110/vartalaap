@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext} from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import AuthForm from "./components/AuthForm";
@@ -8,6 +8,7 @@ import AuthContext from "./store/auth-store";
 function App() {
   const authCtx = useContext(AuthContext);
 
+  
   return (
     <Switch>
       <Route path='/' exact>

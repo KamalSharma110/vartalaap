@@ -1,15 +1,21 @@
-import React, { useState, useRef ,useContext} from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import classes from './AuthForm.module.css';
 import Add from '../img/addAvatar.png';
 import AuthContext from '../store/auth-store';
 
-const AuthForm = (props) => {
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from '../firebase/firebase';
+
+
+const AuthForm = () => {
+    let idToken;
     const [showLogin, setShowLogin] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [hasError, setHasError] = useState(null);
 
+    const displayNameInputRef = useRef();
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
     const history = useHistory();
@@ -39,8 +45,10 @@ const AuthForm = (props) => {
             }
 
             const data = await response.json();
-            
-            authCtx.login(data.idToken);
+            idToken = data.idToken;
+
+            authCtx.login(idToken);
+
             history.replace('/home');
         }
         catch (error) {
@@ -57,6 +65,29 @@ const AuthForm = (props) => {
         }
         else {
             sendRequest('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU');
+
+            const displayName = displayNameInputRef.current.value;
+            const storageRef = ref(storage, displayName);
+
+            uploadBytesResumable(storageRef, document.getElementById('avatar').files[0]).then(() => {
+                getDownloadURL(storageRef).then(async (downloadURL) => {
+
+                    const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            idToken: idToken,
+                            displayName: displayName,
+                            photoUrl: downloadURL,
+                            returnSecureToken: true
+                        })
+                    });
+                    const data = await response.json(); //json() will turn this response in json format to a normal javascript object
+                    console.log(data);
+                });
+            });
         }
     };
 
@@ -65,7 +96,7 @@ const AuthForm = (props) => {
             <h1>Chat App</h1>
             <span>{`${showLogin ? 'Login' : 'Register'}`}</span>
             <form className={classes.form} onSubmit={submitHandler}>
-                {!showLogin && <input type='text' placeholder='display name' />}
+                {!showLogin && <input type='text' placeholder='display name' ref={displayNameInputRef} />}
                 <input type='email' placeholder="email" ref={emailInputRef} />
                 <input type='password' placeholder="password" ref={passwordInputRef} />
                 {!showLogin &&
