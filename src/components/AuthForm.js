@@ -67,7 +67,7 @@ const AuthForm = () => {
             sendRequest('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU');
 
             const displayName = displayNameInputRef.current.value;
-            const storageRef = ref(storage, displayName);
+            const storageRef = ref(storage, displayName); //second argument is the path inside the firebase storage where this file will be uploaded
 
             uploadBytesResumable(storageRef, document.getElementById('avatar').files[0]).then(() => {
                 getDownloadURL(storageRef).then(async (downloadURL) => {
