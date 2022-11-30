@@ -99,6 +99,8 @@ const AuthForm = () => {
             photoUrl: userData.photoUrl,
             localId: userData.localId,
           });
+
+          await setDoc(doc(db, "userChats", userData.localId),{ });
         });
       });
     }
