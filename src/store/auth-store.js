@@ -19,8 +19,8 @@ export const AuthContextProvider = (props) => {
 
   const isLoggedIn = !!currentUserInfo;
 
-  const getAuthUserData = (token) => {
-    return fetch(
+  const getAuthUserData = async(token) => {
+    return await fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU",
       {
         method: "POST",
@@ -30,9 +30,9 @@ export const AuthContextProvider = (props) => {
     )
       .then((response) => response.json())
       .then((data) => data.users[0]);
-  };
-
-  const login = (token) => {
+    };
+    
+    const login = (token) => {
     getAuthUserData(token).then((userData) => {
       localStorage.setItem(
         "currentUserInfo",

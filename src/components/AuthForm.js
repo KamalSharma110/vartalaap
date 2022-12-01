@@ -25,11 +25,10 @@ const AuthForm = () => {
     setShowLogin((prevState) => (prevState = !prevState));
   };
 
-  
-
   const sendRequest = async (url) => {
     try {
       setIsLoading(true);
+
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -49,8 +48,45 @@ const AuthForm = () => {
       const data = await response.json();
       idToken = data.idToken;
 
-      authCtx.login(idToken);
+      if (!showLogin) {
+        const displayName = displayNameInputRef.current.value;
+        const storageRef = ref(storage, displayName);
 
+        await uploadBytesResumable(
+          storageRef,
+          document.getElementById("avatar").files[0]
+        );
+        const downloadURL = await getDownloadURL(storageRef);
+
+        const response = await fetch(
+          "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              idToken: idToken,
+              displayName: displayName,
+              photoUrl: downloadURL,
+              returnSecureToken: true,
+            }),
+          }
+        );
+
+        const userData = await response.json();
+
+        await setDoc(doc(db, "users", userData.localId), {
+          displayName: userData.displayName,
+          email: userData.email,
+          photoUrl: userData.photoUrl,
+          localId: userData.localId,
+        });
+
+        await setDoc(doc(db, "userChats", userData.localId), {});
+      }
+
+      authCtx.login(idToken);
       history.replace("/home");
     } catch (error) {
       setHasError(error.message);
@@ -68,43 +104,6 @@ const AuthForm = () => {
       sendRequest(
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU"
       );
-
-      const displayName = displayNameInputRef.current.value;
-      const storageRef = ref(storage, displayName);
-
-      uploadBytesResumable(
-        storageRef,
-        document.getElementById("avatar").files[0]
-      ).then(() => {
-        getDownloadURL(storageRef).then(async (downloadURL) => {
-          const response = await fetch(
-            "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                idToken: idToken,
-                displayName: displayName,
-                photoUrl: downloadURL,
-                returnSecureToken: true,
-              }),
-            }
-          );
-          const userData = await response.json(); //json() will turn this response in json format to a normal javascript object but it returns a promise so we'll have to use 'await'
-          console.log(userData);
-
-          await setDoc(doc(db, "users", userData.localId), {
-            displayName: userData.displayName,
-            email: userData.email,
-            photoUrl: userData.photoUrl,
-            localId: userData.localId,
-          });
-
-          await setDoc(doc(db, "userChats", userData.localId), {});
-        });
-      });
     }
   };
 
