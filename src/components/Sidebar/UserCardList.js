@@ -1,13 +1,24 @@
-import { collection, where } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
+import { useEffect } from "react";
 import { db } from "../../firebase/firebase";
+
+import { useContext } from "react";
+import AuthContext from "../../store/auth-store";
 
 
 const UserCardList = () => {
+    const authCtx = useContext(AuthContext);
+    const {localId} = authCtx.currentUserInfo;
 
-    // const ref = collection(db, "userChats");
+    useEffect(() => {
+        const unsub = onSnapshot(doc(db, "userChats", localId), (doc) => {
+            console.log("Current data: ", doc.data());
+        });
 
-    // const q = query(ref, where())
-
+        return () => {
+            unsub();
+        };
+    }, [localId]);
 
     return(
     <ul>

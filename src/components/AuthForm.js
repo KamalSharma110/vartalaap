@@ -25,6 +25,8 @@ const AuthForm = () => {
     setShowLogin((prevState) => (prevState = !prevState));
   };
 
+  
+
   const sendRequest = async (url) => {
     try {
       setIsLoading(true);
@@ -67,8 +69,8 @@ const AuthForm = () => {
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU"
       );
 
-            const displayName = displayNameInputRef.current.value;
-            const storageRef = ref(storage, displayName);
+      const displayName = displayNameInputRef.current.value;
+      const storageRef = ref(storage, displayName);
 
       uploadBytesResumable(
         storageRef,
@@ -90,7 +92,7 @@ const AuthForm = () => {
               }),
             }
           );
-          const userData = await response.json(); //json() will turn this response in json format to a normal javascript object but it returns a promise so we'll have to use await
+          const userData = await response.json(); //json() will turn this response in json format to a normal javascript object but it returns a promise so we'll have to use 'await'
           console.log(userData);
 
           await setDoc(doc(db, "users", userData.localId), {
@@ -100,7 +102,7 @@ const AuthForm = () => {
             localId: userData.localId,
           });
 
-          await setDoc(doc(db, "userChats", userData.localId),{ });
+          await setDoc(doc(db, "userChats", userData.localId), {});
         });
       });
     }

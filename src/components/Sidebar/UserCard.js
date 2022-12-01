@@ -1,10 +1,13 @@
 import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import React, { useContext } from 'react';
 import { db } from '../../firebase/firebase';
-import { currentUserId } from './NavBar';
+import AuthContext from '../../store/auth-store';
 import classes from './UserCard.module.css';
 // import ContactImg from '../../img/contact-profile-pic.jpg';
 
 const UserCard = props => {
+    const authCtx = useContext(AuthContext);
+    const currentUserId = authCtx.currentUserInfo.localId;
 
     const clickHandler = async () => {
         const combinedId = currentUserId > props.localId ?
@@ -20,7 +23,6 @@ const UserCard = props => {
 
         await updateDoc(doc(db, "userChats", currentUserId), {
             [combinedId + ".userInfo"]: {
-
                 localId: props.localId,
                 photoUrl: props.profilePicture,
                 displayName: props.name
@@ -41,4 +43,4 @@ const UserCard = props => {
     );
 };
 
-export default UserCard;
+export default React.memo(UserCard);

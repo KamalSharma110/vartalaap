@@ -1,37 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const AuthContext = React.createContext({
-    token: '',
-    isLoggedIn: null,
-    login: () => { },
-    logout: () => { },
+  currentUserInfo: {
+    token: "",
+    displayName: "",
+    photoUrl: "",
+    localId: "",
+  },
+  isLoggedIn: null,
+  login: () => {},
+  logout: () => {},
 });
 
 export const AuthContextProvider = (props) => {
-    const [token, setToken] = useState(localStorage.getItem('token'));
-    const isLoggedIn = !!token;
+  const [currentUserInfo, setCurrentUserInfo] = useState(
+    JSON.parse(localStorage.getItem("currentUserInfo"))
+  );
 
-    const login = (token) => {
-        localStorage.setItem('token', token);
-        setToken(token);
-    };
+  const isLoggedIn = !!currentUserInfo;
 
-    const logout = () => {
-        setToken(null);
-        localStorage.removeItem('token');
-    };
+  const getAuthUserData = (token) => {
+    return fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken: token }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => data.users[0]);
+  };
 
-    return (
-        <AuthContext.Provider
-            value={{
-                token: token,
-                isLoggedIn: isLoggedIn,
-                login: login,
-                logout: logout,
-            }}>
-            {props.children}
-        </AuthContext.Provider>
-    );
+  const login = (token) => {
+    getAuthUserData(token).then((userData) => {
+      localStorage.setItem(
+        "currentUserInfo",
+        JSON.stringify({
+          token: userData.token,
+          displayName: userData.displayName,
+          photoUrl: userData.photoUrl,
+          localId: userData.localId,
+        })
+      );
+
+      setCurrentUserInfo({
+        token: userData.token,
+        displayName: userData.displayName,
+        photoUrl: userData.photoUrl,
+        localId: userData.localId,
+      });
+    });
+  };
+
+  const logout = () => {
+    setCurrentUserInfo(null);
+    localStorage.removeItem("currentUserInfo");
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        currentUserInfo: currentUserInfo,
+        isLoggedIn: isLoggedIn,
+        login: login,
+        logout: logout,
+      }}
+    >
+      {props.children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthContext;
