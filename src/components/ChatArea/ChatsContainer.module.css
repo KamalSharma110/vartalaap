@@ -1,0 +1,9 @@
+.chats-container{
+    overflow: auto;
+    height: 317px;
+}
+
+.chats-container ul{
+    list-style: none;
+    padding: 0;
+}

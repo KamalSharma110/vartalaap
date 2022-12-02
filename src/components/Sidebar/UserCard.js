@@ -7,8 +7,9 @@ import classes from './UserCard.module.css';
 
 const UserCard = props => {
     const authCtx = useContext(AuthContext);
-    const currentUserId = authCtx.currentUserInfo.localId;
+    const {localId: currentUserId, photoUrl, displayName} = authCtx.currentUserInfo;
 
+    
     const clickHandler = async () => {
         const combinedId = currentUserId > props.localId ?
             currentUserId + props.localId : props.localId + currentUserId;
@@ -26,6 +27,16 @@ const UserCard = props => {
                 localId: props.localId,
                 photoUrl: props.profilePicture,
                 displayName: props.name
+            },
+            [combinedId + ".date"]: serverTimestamp(),
+        }
+        );
+
+        await updateDoc(doc(db, "userChats", props.localId), {
+            [combinedId + ".userInfo"]: {
+                localId: currentUserId,
+                photoUrl: photoUrl,
+                displayName: displayName
             },
             [combinedId + ".date"]: serverTimestamp(),
         }

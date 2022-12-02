@@ -1,0 +1,31 @@
+.chat{
+    /* display: flex;
+    flex-direction: column; */
+    margin: 1em;
+    margin-bottom: 2em;
+}
+
+.chat div{
+    display: flex;
+    gap: 2.5em;
+    align-items: center;
+    /* padding-left: 1em; */
+}
+
+.chat div>img{
+    width: 40px;
+    height: 40px;
+}
+
+.chat div>span{
+    color: #3a3a3a;
+    background: white;
+    padding: 0.5em 1em;
+    border-radius: 0 10px 10px 10px;
+}
+
+.chat>span{
+    color: gray;
+    font-size: .9rem;
+}
+

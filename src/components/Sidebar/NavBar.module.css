@@ -19,12 +19,6 @@
     font-size: 0.85rem;
 }
 
-.nav_user-info img{
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    /* object-fit: cover; */
-}
 
 .nav_user-info button{
     color: white;

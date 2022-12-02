@@ -8,14 +8,13 @@
     transition: all .5s;
 }
 
-.contact:hover{
-    background-color: #2f2d52;
+.contact img{
+    width: 45px;
+    height: 45px;
 }
 
-.contact img{
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+.contact:hover{
+    background-color: #2f2d52;
 }
 
 .contact-info span{

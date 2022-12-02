@@ -10,3 +10,10 @@ body{
     height: 100vh;
     background-color: #a8bafa;;
 }
+
+img{
+    object-fit: cover;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
