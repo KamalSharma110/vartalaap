@@ -1,15 +1,14 @@
-import dp from '../../img/profile-pic.jpg';
 import classes from './Chat.module.css';
 
-const Chat = () => {
+const Chat = props => {
 
     return (
         <div className={classes.chat}>
             <div>
-                <img src={dp} alt=''/>
-                <span>dummy text</span>
+                <img src={props.photoUrl} alt=''/>
+                <span>{props.text}</span>
             </div>
-            <span>just now</span>
+            <span>{props.date}</span>
         </div>
     );
 
