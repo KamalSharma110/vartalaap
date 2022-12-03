@@ -1,8 +1,11 @@
 .chat{
-    /* display: flex;
-    flex-direction: column; */
     margin: 1em;
     margin-bottom: 2em;
+}
+
+.float_right div{
+    justify-content: end;
+    flex-direction: row-reverse;
 }
 
 .chat div{
@@ -22,6 +25,13 @@
     background: white;
     padding: 0.5em 1em;
     border-radius: 0 10px 10px 10px;
+}
+
+.float_right div>span{
+    color: white;
+    background: #7e92e7;
+    padding: 0.5em 1em;
+    border-radius: 10px 0 10px 10px;
 }
 
 .chat>span{

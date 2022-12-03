@@ -1,54 +1,58 @@
 import React, { useReducer } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase/firebase";
+
 
 const ChatContext = React.createContext({
   chats: [],
+  user: {},
+  combinedId: null,
   dispatchChatState: () => {},
 });
 
 const chatReducer = (prevState, action) => {
+  let updatedState;
+
   if (action.type === "USER_CHANGED") {
-    getChats(action.payload.combinedId).then((messages) => {
-      return {
-        chats: messages,
-        user: {
-          photoUrl: action.payload.photoUrl,
-          localId: action.payload.localId,
-        },
-      };
-    });
+    updatedState = {
+      chats: action.payload.messages,
+      combinedId: action.payload.combinedId,
+      user: {
+        photoUrl: action.payload.photoUrl,
+        localId: action.payload.localId,
+      },
+    };
+
+    return updatedState;
+  }
+
+  if(action.type === 'MESSAGE_UPDATE'){
+    updatedState = {
+      ...prevState,
+      chats: action.payload,
+    };
+    return updatedState;
   }
 
   return prevState;
 };
 
-const getChats = async (combinedId) => {
-  const docRef = doc(db, "chats", combinedId);
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data().messages);
-    return docSnap.data().messages;
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
-  }
-};
-
 export const ChatContextProvider = (props) => {
   const [chatState, dispatchChatState] = useReducer(chatReducer, {
     chats: [],
+    combinedId: null,
     user: {
       photoUrl: "",
       localId: "",
     },
   });
 
+  console.log(chatState);
+
   return (
     <ChatContext.Provider
       value={{
         chats: chatState.chats,
+        user: chatState.user,
+        combinedId: chatState.combinedId,
         dispatchChatState,
       }}
     >

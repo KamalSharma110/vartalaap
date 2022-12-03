@@ -22,6 +22,18 @@ const UserCard = (props) => {
     displayName,
   } = authCtx.currentUserInfo;
 
+  const getChats = async (combinedId) => {
+    const docRef = doc(db, "chats", combinedId);
+    const docSnap = await getDoc(docRef);
+  
+    if (docSnap.exists()) {
+      return docSnap.data().messages;
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  };
+
   const clickHandler = async () => {
     const combinedId =
       currentUserId > props.localId
@@ -53,12 +65,15 @@ const UserCard = (props) => {
         [combinedId + ".date"]: serverTimestamp(),
       });
     }
+
+    const messages = await getChats(combinedId);
     
     chatCtx.dispatchChatState({
       type: "USER_CHANGED",
       payload: {
         combinedId,
-        photoUrl: props.photoUrl,
+        messages,
+        photoUrl: props.profilePicture,
         localId: props.localId,
       },
     });

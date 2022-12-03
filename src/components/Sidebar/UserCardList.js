@@ -44,7 +44,8 @@ const UserCardList = () => {
                     <li key={userData.localId}>
                         <UserCard
                             profilePicture={userData.photoUrl}
-                            name={userData.displayName} />
+                            name={userData.displayName} 
+                            localId={userData.localId}/>
                     </li>
                 );
             })}

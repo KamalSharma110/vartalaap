@@ -4,6 +4,7 @@ import ChatInput from './ChatInput';
 import ChatsContainer from './ChatsContainer';
 
 const ChatArea = () => {
+
     return (
         <section className={classes.chatarea}>
             <ChatAreaHeader />
