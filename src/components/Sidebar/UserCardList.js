@@ -22,6 +22,7 @@ const UserCardList = () => {
                     localId: usersData[key].userInfo.localId,
                     displayName: usersData[key].userInfo['displayName'],
                     photoUrl: usersData[key].userInfo.photoUrl,
+                    lastMessage: usersData[key].lastMessage
                 });
             }
 
@@ -44,8 +45,10 @@ const UserCardList = () => {
                     <li key={userData.localId}>
                         <UserCard
                             profilePicture={userData.photoUrl}
-                            name={userData.displayName} 
-                            localId={userData.localId}/>
+                            name={userData.displayName}
+                            localId={userData.localId}
+                            lastMessage={userData.lastMessage}
+                        />
                     </li>
                 );
             })}

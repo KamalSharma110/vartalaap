@@ -84,7 +84,7 @@ const UserCard = (props) => {
       <img src={props.profilePicture} alt="contact-1" />
       <div className={classes["contact-info"]}>
         <span>{props.name}</span>
-        <span></span>
+        <span>{props.lastMessage}</span>
       </div>
     </div>
   );

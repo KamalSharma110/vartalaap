@@ -1,6 +1,9 @@
 .chat{
     margin: 1em;
     margin-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
 }
 
 .float_right div{
@@ -10,7 +13,7 @@
 
 .chat div{
     display: flex;
-    gap: 2.5em;
+    gap: 1.5em;
     align-items: center;
     /* padding-left: 1em; */
 }
@@ -39,3 +42,9 @@
     font-size: .9rem;
 }
 
+#received_image{
+    object-fit:unset;
+    border-radius: 10px;
+    width: 100px;
+    height: unset;
+}

@@ -41,11 +41,10 @@ export const ChatContextProvider = (props) => {
     combinedId: null,
     user: {
       photoUrl: "",
-      localId: "",
+      localId: null,
     },
   });
 
-  console.log(chatState);
 
   return (
     <ChatContext.Provider

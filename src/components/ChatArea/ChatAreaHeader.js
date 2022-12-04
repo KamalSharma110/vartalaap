@@ -14,7 +14,7 @@ const ChatAreaHeader = () => {
 
   useEffect(() => {
     async function getName() {
-      displayName = (await getDoc(doc(db, "users", localId))).displayName;
+      displayName = (await getDoc(doc(db, "users", localId))).data().displayName;
     }
 
     if(localId) getName();

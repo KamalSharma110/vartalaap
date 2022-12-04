@@ -7,22 +7,18 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 
 const ChatsContainer = () => {
-  console.log('chatContainer running');
   const chatCtx = useContext(ChatContext);
   const authCtx = useContext(AuthContext);
 
   const {combinedId, dispatchChatState} = chatCtx;
 
   useEffect(() => {
-    console.log('effect running');
     if(combinedId){
     const unsub = onSnapshot(doc(db, "chats", combinedId) , (doc) => {
       dispatchChatState({type: 'MESSAGE_UPDATE', payload: doc.data().messages});
-      console.log('dispatched');
     });
 
     return () => {
-      console.log('cleanup running');
       unsub();
     }
   }
@@ -33,13 +29,20 @@ const ChatsContainer = () => {
     <div className={classes["chats-container"]}>
       <ul>
         {chatCtx.chats.map((chat) => {
+          let received_message = true;
+
+          if(chat.senderId === authCtx.currentUserInfo.localId){
+             received_message = false;
+          }
+
           return (
             <li key={chat.id}>
               <Chat
                 text={chat.text}
                 date={chat.date}
-                photoUrl={chatCtx.user.photoUrl}
-                received={chat.senderId === authCtx.currentUserInfo.localId ? false : true}
+                photoUrl={received_message ? chatCtx.user.photoUrl : authCtx.currentUserInfo.photoUrl}
+                received={received_message}
+                img={chat.img}
               />
             </li>
           );
