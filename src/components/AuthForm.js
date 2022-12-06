@@ -1,96 +1,24 @@
-import React, { useState, useRef, useContext } from "react";
-import { useHistory } from "react-router-dom";
-
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import classes from "./AuthForm.module.css";
 import Add from "../img/addAvatar.png";
-import AuthContext from "../store/auth-store";
-
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { db, storage } from "../firebase/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import useHttp from "../hooks/useHttp";
+import Error from "./Error";
 
 const AuthForm = () => {
-  let idToken;
   const [showLogin, setShowLogin] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(null);
 
-  const displayNameInputRef = useRef();
-  const emailInputRef = useRef();
-  const passwordInputRef = useRef();
-  const history = useHistory();
-  const authCtx = useContext(AuthContext);
+  const {
+    displayNameInputRef,
+    emailInputRef,
+    passwordInputRef,
+    isLoading,
+    hasError,
+    sendRequest,
+  } = useHttp();
 
   const clickHandler = () => {
     setShowLogin((prevState) => (prevState = !prevState));
-  };
-
-  const sendRequest = async (url) => {
-    try {
-      setIsLoading(true);
-
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: emailInputRef.current.value,
-          password: passwordInputRef.current.value,
-          returnSecureToken: true,
-        }),
-      });
-
-      setIsLoading(false);
-
-      if (!response.ok) {
-        throw new Error("Something went wrong....");
-      }
-
-      const data = await response.json();
-      idToken = data.idToken;
-
-      if (!showLogin) {
-        const displayName = displayNameInputRef.current.value;
-        const storageRef = ref(storage, displayName);
-
-        await uploadBytesResumable(
-          storageRef,
-          document.getElementById("avatar").files[0]
-        );
-        const downloadURL = await getDownloadURL(storageRef);
-
-        const response = await fetch(
-          "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              idToken: idToken,
-              displayName: displayName,
-              photoUrl: downloadURL,
-              returnSecureToken: true,
-            }),
-          }
-        );
-
-        const userData = await response.json();
-
-        await setDoc(doc(db, "users", userData.localId), {
-          displayName: userData.displayName,
-          email: userData.email,
-          photoUrl: userData.photoUrl,
-          localId: userData.localId,
-        });
-
-        await setDoc(doc(db, "userChats", userData.localId), {});
-      }
-
-      authCtx.login(idToken);
-      history.replace("/home");
-    } catch (error) {
-      setHasError(error.message);
-    }
   };
 
   const submitHandler = (event) => {
@@ -98,11 +26,13 @@ const AuthForm = () => {
 
     if (showLogin) {
       sendRequest(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU"
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU",
+        showLogin
       );
     } else {
       sendRequest(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU"
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU",
+        showLogin
       );
     }
   };
@@ -117,6 +47,7 @@ const AuthForm = () => {
             type="text"
             placeholder="display name"
             ref={displayNameInputRef}
+            required
           />
         )}
         <input type="email" placeholder="email" ref={emailInputRef} />
@@ -130,11 +61,17 @@ const AuthForm = () => {
             </label>
           </React.Fragment>
         )}
-        {!isLoading && !hasError && (
-          <button>{`${showLogin ? "Sign In" : "Sign Up"}`}</button>
+        {!isLoading && (
+          <button disabled={hasError ? 'true' : ''}>
+            {`${showLogin ? "Sign In" : "Sign Up"}`}
+          </button>
         )}
         {isLoading && <p>Sending Request...</p>}
-        {hasError && <p>{hasError}</p>}
+        {hasError &&
+          ReactDOM.createPortal(
+            <Error errorMessage={hasError} />,
+            document.getElementsByTagName("body")[0]
+          )}
       </form>
 
       <div className={classes["toggle-container"]}>

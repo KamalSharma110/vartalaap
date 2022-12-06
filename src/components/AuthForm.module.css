@@ -50,6 +50,10 @@ p{
     transition: all .5s;
 }
 
+.form button:disabled{
+    cursor: not-allowed;
+}
+
 .form label{
     display: flex;
     align-items: center;
