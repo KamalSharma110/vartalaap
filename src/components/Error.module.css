@@ -1,0 +1,45 @@
+.error{
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: white;
+    text-align: center;
+    background-color: indianred;
+    width: 100%;
+    padding: 1em;
+    animation: appear 1000ms ;
+}
+
+.error span{
+    clear: right;
+}
+
+.error button{
+    background: none;
+    border: 1px solid white;
+    color: white;
+    border-radius: 3px;
+    font-size: 1.05rem;
+    position: absolute;
+    right: 7%;
+    bottom: 25%;
+    transition: all .2s;
+}
+
+.error button:hover,
+.error button:focus,
+.error button:active{
+    letter-spacing: 1px;
+}
+
+@keyframes appear {
+    from{
+        opacity: 0;
+        top: -100%;
+    }
+
+    to{
+        opacity: 1;
+        top: 0;
+    }
+}
