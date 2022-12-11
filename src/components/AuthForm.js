@@ -21,6 +21,14 @@ const AuthForm = () => {
     setShowLogin((prevState) => (prevState = !prevState));
   };
 
+  const showPasswordHandler = (event) => {
+    const showPassword = event.target.checked;
+    const el = document.querySelector('input[placeholder="password"]');
+
+    if(showPassword)  el.setAttribute('type' ,'text');
+    else  el.setAttribute('type', 'password');
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
 
@@ -50,23 +58,30 @@ const AuthForm = () => {
             required
           />
         )}
+
         <input type="email" placeholder="email" ref={emailInputRef} />
         <input type="password" placeholder="password" ref={passwordInputRef} />
+        <input type="checkbox" id="show-password" onClick={showPasswordHandler}/>
+        <label htmlFor="show-password" className={classes['show-password_label']}>Show Password</label>
+
         {!showLogin && (
           <React.Fragment>
-            <input id="avatar" type="file" style={{ display: "none" }} />
+            <input id="avatar" type="file" style={{ display: "none" }}/>
             <label htmlFor="avatar">
               <img src={Add} alt="add avatar icon" />
               <span>Add an avatar</span>
             </label>
           </React.Fragment>
         )}
+
         {!isLoading && (
-          <button disabled={hasError ? 'true' : ''}>
+          <button disabled={hasError ? true : false}>
             {`${showLogin ? "Sign In" : "Sign Up"}`}
           </button>
         )}
+
         {isLoading && <p>Sending Request...</p>}
+
         {hasError &&
           ReactDOM.createPortal(
             <Error errorMessage={hasError} />,

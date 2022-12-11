@@ -10,10 +10,6 @@
     animation: appear 1000ms ;
 }
 
-.error span{
-    clear: right;
-}
-
 .error button{
     background: none;
     border: 1px solid white;
@@ -30,7 +26,8 @@
 .error button:hover,
 .error button:focus,
 .error button:active{
-    letter-spacing: 1px;
+    color: #ffffffcf;
+    border-color: #ffffffcf;
 }
 
 @keyframes appear {

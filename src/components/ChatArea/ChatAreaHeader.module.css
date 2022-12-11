@@ -21,3 +21,9 @@
 .chatareaheader_options ion-icon{
     font-size: 20px;
 }
+
+@media(max-width: 28em){
+    .chatareaheader_options ion-icon{
+        font-size: 18px;
+    }
+}

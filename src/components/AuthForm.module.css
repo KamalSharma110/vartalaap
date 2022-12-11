@@ -14,7 +14,7 @@ p{
     border-radius: 8px;
     gap: 1em;
     box-shadow: 0px 0px 5px 1px #22212154;
-    width: 385px;
+    width: min(385px, 90vw);
 }
 
 .form{
@@ -26,14 +26,17 @@ p{
     border: none;
 }
 
-.form input{
+.form input:not([type="checkbox"]){
     display: block;
-    margin: 2em 0;
+    margin: 2em 0 1em 0;
     width: 100%;
     box-shadow: 0px 1px 2px 0px #b9b5b5;
-    font-weight: 300;
     font-size: 12px;
     outline: none;
+}
+
+.form input[type="checkbox"]{
+    margin-bottom: 1em;
 }
 
 .form button{
@@ -44,14 +47,10 @@ p{
     cursor: pointer;
 }
 
-.form button:hover,
-.form button:focus{
+.form button:hover:enabled,
+.form button:focus:enabled{
     background-color: #3155d7;
     transition: all .5s;
-}
-
-.form button:disabled{
-    cursor: not-allowed;
 }
 
 .form label{
@@ -59,12 +58,19 @@ p{
     align-items: center;
     gap: 1em;
     padding-left: 0;
+    padding-bottom: 1em;
+    margin-left: -3px;
     font-size: 0.8rem;
     cursor: pointer;
 }
 
+.form label.show-password_label{
+    display: unset;
+    padding-left: 1em;
+}
+
 .form label img{
-    width: 32px;
+    border-radius: 0;
 }
 
 .toggle-container{
@@ -76,11 +82,4 @@ p{
     border: none;
     text-decoration: underline;
     cursor: pointer;
-}
-
-
-@media (max-width: 385px) {
-    .form-container{
-        width: 90vw;
-    }
 }

@@ -1,6 +1,6 @@
-.main-container{
+.main-container {
     display: flex;
-    width: 1000px;
+    width: min(95vw, 1000px);
     /* height: 600px; */
     background-color: white;
     border-radius: 12px;

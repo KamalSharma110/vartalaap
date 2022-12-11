@@ -39,3 +39,9 @@
 .nav_user-info button:focus{
     background-color: #413e64;
 }
+
+@media (max-width: 40em) {
+    .nav>span{
+        display: none;
+    }
+}

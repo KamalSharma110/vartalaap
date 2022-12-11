@@ -92,7 +92,7 @@ const ChatInput = () => {
           <label htmlFor="attach-button">
             <ion-icon name="attach"></ion-icon>
           </label>
-          <button disabled={image || message !== '' ? '' : 'true'}>Send</button>
+          <button disabled={image || message !== '' ? false : true}>Send</button>
         </div>
       </form>
     </div>
