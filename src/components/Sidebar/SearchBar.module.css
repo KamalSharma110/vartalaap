@@ -1,13 +1,39 @@
+.searchbar{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #96909038;
+}
+
 .searchbar input{
-    width: 100%;
+    width: 90%;
     outline: none;
     border: none;
     background-color: #5f5b8e;
     color: white;
     padding: 0.8em;
-    border-bottom: 1px solid #96909038;
 }
 
 .searchbar input::placeholder{
     color: lightgray;
+}
+
+.searchbar ion-icon{
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.searchbar ion-icon:hover,
+.searchbar ion-icon:focus{
+    color: #c1bbbb;
+}
+
+.no-user-found{
+    display: block;
+    color: #cdcdcd78;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-block: 1em;
+    text-align:center;
 }

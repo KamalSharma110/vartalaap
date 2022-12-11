@@ -7,15 +7,17 @@
     padding: 1em;
 }
 
+.chatareaheader span{
+    text-transform: capitalize;
+}
+
 .chatareaheader_options{
     display: flex;
-    gap: 0.5em;
+    gap: 0.6em;
     height: 32px;
     align-items: center;
 }
 
-.chatareaheader_options img{
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
+.chatareaheader_options ion-icon{
+    font-size: 20px;
 }

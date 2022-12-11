@@ -24,6 +24,7 @@
     right: 7%;
     bottom: 25%;
     transition: all .2s;
+    cursor: pointer;
 }
 
 .error button:hover,

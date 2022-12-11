@@ -17,3 +17,8 @@ img{
     height: 32px;
     border-radius: 50%;
 }
+
+button:disabled{
+    cursor: not-allowed;
+    opacity: .5;
+}

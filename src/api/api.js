@@ -32,7 +32,7 @@ const registerUser = async(displayNameInputRef, idToken) => {
         const userData = await response.json();
 
         await setDoc(doc(db, "users", userData.localId), {
-          displayName: userData.displayName,
+          displayName: userData.displayName.toLowerCase(),
           email: userData.email,
           photoUrl: userData.photoUrl,
           localId: userData.localId,

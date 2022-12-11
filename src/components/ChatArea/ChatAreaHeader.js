@@ -1,7 +1,4 @@
 import classes from "./ChatAreaHeader.module.css";
-import cam from "../../img/cam.png";
-import more from "../../img/more.png";
-import add from "../../img/add.png";
 import { useContext, useEffect } from "react";
 import ChatContext from "../../store/chat-context";
 import { doc, getDoc } from "firebase/firestore";
@@ -24,9 +21,9 @@ const ChatAreaHeader = () => {
     <div className={classes.chatareaheader}>
       <span>{displayName}</span>
       <div className={classes["chatareaheader_options"]}>
-        <img src={cam} alt="video call" />
-        <img src={add} alt="add contact" />
-        <img src={more} alt="more options" />
+        <ion-icon name="videocam-sharp"></ion-icon>
+        <ion-icon name="person-add"></ion-icon>
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
       </div>
     </div>
   );

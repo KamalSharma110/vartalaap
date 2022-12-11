@@ -37,8 +37,8 @@ const useHttp = () => {
 
       const idToken = data.idToken;
 
-      if (!showLogin) registerUser(displayNameInputRef, idToken);
-        
+      if (!showLogin) await registerUser(displayNameInputRef, idToken);
+
       authCtx.login(idToken);
       history.replace("/home");
     } catch (error) {
@@ -52,7 +52,7 @@ const useHttp = () => {
     displayNameInputRef,
     emailInputRef,
     passwordInputRef,
-    sendRequest
+    sendRequest,
   };
 };
 

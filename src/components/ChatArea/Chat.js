@@ -18,7 +18,7 @@ const Chat = (props) => {
       <img src={img} alt="" id={classes["received_image"]} />
       <div>
         <img src={photoUrl} alt="" />
-        <span>{text}</span>
+        {text.length !== 0 && <span>{text}</span>}
       </div>
       <span style={{ float: `${!received ? "right" : "none"}` }}>
         {date.toDate().toLocaleTimeString()}
