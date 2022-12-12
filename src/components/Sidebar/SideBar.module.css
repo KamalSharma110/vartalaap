@@ -3,3 +3,9 @@
     /* height: 100%; */
     background-color: #5f5b8e;
 }
+
+@media (max-width: 28em) {
+    .sidebar{
+        position: relative;
+    }
+}

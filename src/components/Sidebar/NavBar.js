@@ -24,8 +24,10 @@ const NavBar = () => {
     <div className={classes.nav}>
       <span>Chat App</span>
       <div className={classes["nav_user-info"]}>
-        <img src={currentUser.photoUrl} alt="current user" />
-        <span>{currentUser.displayName}</span>
+        <div>
+          <img src={currentUser.photoUrl} alt="current user" />
+          <span>{currentUser.displayName}</span>
+        </div>
         <button
           onClick={() => {
             authCtx.logout();

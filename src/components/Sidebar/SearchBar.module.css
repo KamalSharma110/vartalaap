@@ -15,6 +15,7 @@
 
 .searchbar input::placeholder{
     color: lightgray;
+    font-size: clamp(.9rem, 2.8vw ,1.02rem);
 }
 
 .searchbar ion-icon{

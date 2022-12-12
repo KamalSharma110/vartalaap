@@ -18,7 +18,7 @@
 
 .chatinput_form>input::placeholder {
   color: lightgray;
-  font-size: 1.02rem;
+  font-size: clamp(.9rem, 2.8vw ,1.02rem);
 }
 
 .chatinput_form__actions {
@@ -47,6 +47,7 @@ ion-icon[name="image"]:hover {
 }
 
 .chatinput_form__actions button {
+  font-size: clamp(.8em, 2.8vw ,1rem);
   border: none;
   background-color: #6577bd;
   color: white;
@@ -64,5 +65,9 @@ ion-icon[name="image"]:hover {
 @media(max-width: 28em){
   .chatinput_form__actions{
       gap: 0;
+  }
+
+  .chatinput_form__actions ion-icon {
+    font-size: 22px;
   }
 }

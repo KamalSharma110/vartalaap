@@ -17,8 +17,13 @@
     background-color: #2f2d52;
 }
 
+.contact-info{
+    overflow: hidden;
+}
+
 .contact-info span{
     display: block;
+    width: max-content;
 }
 
 .contact-info span:nth-child(1){

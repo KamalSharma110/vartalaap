@@ -33,7 +33,6 @@
 .float_right div>span{
     color: white;
     background: #7e92e7;
-    padding: 0.5em 1em;
     border-radius: 10px 0 10px 10px;
 }
 
@@ -47,4 +46,15 @@
     border-radius: 10px;
     width: 100px;
     height: unset;
+}
+
+@media (max-width: 28em){
+    .chat div{
+        gap: 0.5rem;
+    }
+
+    .chat div>img{
+        width: 35px;
+        height: 35px;
+    }
 }
