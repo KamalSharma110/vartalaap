@@ -7,32 +7,39 @@ import ChatContext from "../../store/chat-context";
 import AuthContext from "../../store/auth-store";
 import classes from "./ChatInput.module.css";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import EmojiPanel from "../EmojiPanel.jsx";
 
 const ChatInput = () => {
   const [message, setMessage] = useState("");
   const [image, setImage] = useState(null);
+  const [showEmojiPanel, setShowEmojiPanel] = useState(false);
 
   const chatCtx = useContext(ChatContext);
   const authCtx = useContext(AuthContext);
 
-  const messageInputChangeHandler = (event) => {
+  const msgInputChangeHandler = (event) => {
     setMessage(event.target.value);
+  };
+  
+  const emojiInputHandler = (value) => {
+    setMessage(prevMsg => prevMsg + value);
   };
 
   const imageInputChangeHandler = (event) => {
     setImage(event.target.files[0]);
   };
 
-  const emoticonHandler = async() => {
-    const response = await fetch('https://emoji-api.com/emojis?access_key=e08c36abf1b89d65b5a91a915bd063be37fed0e1');
-    const data = await response.json();
-    console.log(data);
+  const emoticonHandler = async () => {
+    setShowEmojiPanel((prevState) => !prevState);
   };
 
   const submitHandler = async (event) => {
     event.preventDefault();
+
     if (message === "" && !image) return;
+
     const chatsRef = doc(db, "chats", chatCtx.combinedId);
+
     if (!image) {
       await updateDoc(chatsRef, {
         messages: arrayUnion({
@@ -79,7 +86,7 @@ const ChatInput = () => {
         <input
           type="text"
           placeholder="Type Something..."
-          onChange={messageInputChangeHandler}
+          onChange={msgInputChangeHandler}
           value={message}
         />
 
@@ -98,6 +105,9 @@ const ChatInput = () => {
           <label htmlFor="attach-button">
             <ion-icon name="happy-outline" onClick={emoticonHandler}></ion-icon>
           </label>
+
+          <EmojiPanel show={showEmojiPanel} emojiInputHandler={emojiInputHandler}/>
+          
           <button disabled={image || message !== "" ? false : true}>
             Send
           </button>

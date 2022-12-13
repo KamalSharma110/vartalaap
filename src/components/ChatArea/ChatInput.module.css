@@ -22,6 +22,7 @@
 }
 
 .chatinput_form__actions {
+  position: relative;
   display: flex;
   gap: 0.5em;
   align-items: center;
@@ -37,11 +38,11 @@
   transition: all .2s;
 }
 
-ion-icon[name="image"] {
+ion-icon {
   cursor: pointer;
 }
 
-ion-icon[name="image"]:hover {
+ion-icon:hover {
   cursor: pointer;
   color: #888484;
 }

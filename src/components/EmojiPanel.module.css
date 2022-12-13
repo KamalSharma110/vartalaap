@@ -1,0 +1,31 @@
+.emoji-panel{
+    position: absolute;
+    bottom: 100%;
+    right: 61%;
+    display: none;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 0.1em;
+    background-color: white;
+    border-radius: 10px;
+    padding: 0.4em;
+    overflow-x: hidden;
+    height: 150px;
+}
+
+.emoji-panel span{
+    font-size: 1.2rem;
+    border-radius: 4px;
+    width: 25px;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.emoji-panel span:hover,
+.emoji-panel span:focus{
+    background-color: #d3d3d366;
+    transform: scale(1.4);
+}
+
+.active{
+    display: grid;
+}
