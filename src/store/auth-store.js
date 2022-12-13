@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import ChatContext from "./chat-context";
 
 const AuthContext = React.createContext({
   currentUserInfo: {
@@ -17,6 +18,7 @@ export const AuthContextProvider = (props) => {
     JSON.parse(localStorage.getItem("currentUserInfo"))
   );
 
+  const chatCtx = useContext(ChatContext);
   const isLoggedIn = !!currentUserInfo;
 
   const getAuthUserData = async(token) => {
@@ -55,6 +57,7 @@ export const AuthContextProvider = (props) => {
 
   const logout = () => {
     setCurrentUserInfo(null);
+    chatCtx.dispatchChatState({type: 'LOGGED_OUT'});
     localStorage.removeItem("currentUserInfo");
   };
 

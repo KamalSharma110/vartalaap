@@ -10,12 +10,12 @@ import { ChatContextProvider } from "./store/chat-context";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <AuthContextProvider>
-      <ChatContextProvider>
+    <ChatContextProvider>
+      <AuthContextProvider>
         <React.StrictMode>
           <App />
         </React.StrictMode>
-      </ChatContextProvider>
-    </AuthContextProvider>
+      </AuthContextProvider>
+    </ChatContextProvider>
   </BrowserRouter>
 );

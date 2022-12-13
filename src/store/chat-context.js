@@ -8,6 +8,15 @@ const ChatContext = React.createContext({
   dispatchChatState: () => {},
 });
 
+const initialState = {
+  chats: [],
+  combinedId: null,
+  user: {
+    photoUrl: "",
+    localId: null,
+  },
+};
+
 const chatReducer = (prevState, action) => {
   let updatedState;
 
@@ -32,19 +41,19 @@ const chatReducer = (prevState, action) => {
     return updatedState;
   }
 
+  if(action.type === 'LOGGED_OUT'){
+    updatedState = initialState;
+    return updatedState;
+  }
+
   return prevState;
 };
 
-export const ChatContextProvider = (props) => {
-  const [chatState, dispatchChatState] = useReducer(chatReducer, {
-    chats: [],
-    combinedId: null,
-    user: {
-      photoUrl: "",
-      localId: null,
-    },
-  });
 
+
+export const ChatContextProvider = (props) => {
+
+  const [chatState, dispatchChatState] = useReducer(chatReducer, initialState);
 
   return (
     <ChatContext.Provider
