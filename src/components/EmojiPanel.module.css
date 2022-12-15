@@ -4,12 +4,42 @@
     right: 61%;
     display: none;
     grid-template-columns: repeat(9, 1fr);
-    gap: 0.1em;
+    grid-template-rows: 45px;
+    grid-auto-rows: 27px; /* so that row height do not become large when we have few emojis to show while searching */
+    gap: 0.3em;
     background-color: white;
     border-radius: 10px;
-    padding: 0.4em;
+    padding: 0 0.4em .4em .4em;
     overflow-x: hidden;
-    height: 150px;
+    height: 200px;
+}
+
+.emoji-panel div{
+    width: 264px;
+    position: sticky;
+    top: 0;
+    grid-column: 1/10;
+    background-color: white;
+}
+
+.emoji-panel input{
+    width: 100%;
+    outline: none;
+    border-radius: 10px;
+    border: 1.5px solid gainsboro;
+    padding: 0.2em;
+    padding-left: 0.8em;
+    margin-block: 0.7em;
+}
+
+.emoji-panel p{
+    grid-column: 1/10;
+    font-size: .8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: darkgray;
+    text-align: unset;
+    margin: 0.5em 0 0 0.2em;
 }
 
 .emoji-panel span{
@@ -22,10 +52,13 @@
 
 .emoji-panel span:hover,
 .emoji-panel span:focus{
-    background-color: #d3d3d366;
     transform: scale(1.4);
 }
 
-.active{
+.emoji-panel.active{
     display: grid;
+}
+
+p.inactive{
+    display:none;
 }

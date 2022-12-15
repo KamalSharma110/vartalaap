@@ -2,14 +2,20 @@ import { db, storage } from "../../firebase/firebase.js";
 import { doc, updateDoc, arrayUnion, Timestamp } from "firebase/firestore";
 import { v4 } from "uuid";
 
-import { useContext, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useState,
+  useImperativeHandle,
+} from "react";
+
 import ChatContext from "../../store/chat-context";
 import AuthContext from "../../store/auth-store";
 import classes from "./ChatInput.module.css";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import EmojiPanel from "../EmojiPanel.jsx";
 
-const ChatInput = () => {
+const ChatInput = React.forwardRef((props, refs) => { // to prevent name collision with firebase/storage's ref fn
   const [message, setMessage] = useState("");
   const [image, setImage] = useState(null);
   const [showEmojiPanel, setShowEmojiPanel] = useState(false);
@@ -17,20 +23,25 @@ const ChatInput = () => {
   const chatCtx = useContext(ChatContext);
   const authCtx = useContext(AuthContext);
 
+  useImperativeHandle(refs, () => {
+    return { showEmojiPanelHandler, showEmojiPanel };
+  });
+
+
+  const showEmojiPanelHandler = () => {
+    setShowEmojiPanel((prevState) => !prevState);
+  };
+
   const msgInputChangeHandler = (event) => {
     setMessage(event.target.value);
   };
-  
-  const emojiInputHandler = (value) => {
-    setMessage(prevMsg => prevMsg + value);
-  };
+
+  const emojiInputHandler = useCallback((value) => {
+    setMessage((prevMsg) => prevMsg + value);
+  }, []);
 
   const imageInputChangeHandler = (event) => {
     setImage(event.target.files[0]);
-  };
-
-  const emoticonHandler = async () => {
-    setShowEmojiPanel((prevState) => !prevState);
   };
 
   const submitHandler = async (event) => {
@@ -101,13 +112,19 @@ const ChatInput = () => {
             <ion-icon name="image"></ion-icon>
           </label>
 
-          {/* <input id='attach-button' type='file' style={{display: 'none'}}/> */}
-          <label htmlFor="attach-button">
-            <ion-icon name="happy-outline" onClick={emoticonHandler}></ion-icon>
-          </label>
+          <ion-icon
+            name="happy-outline"
+            onClick={(event) => {
+              event.stopPropagation(); // so that chatArea's onClick listener doesn't run
+              showEmojiPanelHandler();
+            }}
+          ></ion-icon>
 
-          <EmojiPanel show={showEmojiPanel} emojiInputHandler={emojiInputHandler}/>
-          
+          <EmojiPanel
+            show={showEmojiPanel}
+            emojiInputHandler={emojiInputHandler}
+          />
+
           <button disabled={image || message !== "" ? false : true}>
             Send
           </button>
@@ -115,6 +132,6 @@ const ChatInput = () => {
       </form>
     </div>
   );
-};
+});
 
 export default ChatInput;
