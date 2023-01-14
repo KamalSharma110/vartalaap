@@ -8,7 +8,8 @@ body{
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #a8bafa;;
+    /* background: linear-gradient(to bottom left,#170e5f, #433491, #56382e); */
+    /* background-color: #dfdfef; */
 }
 
 img{

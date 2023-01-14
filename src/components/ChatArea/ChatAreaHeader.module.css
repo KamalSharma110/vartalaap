@@ -2,7 +2,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #5f5b8e;
+    /* background-color: #5f5b8e; */
+    border-bottom: 1px solid #41404038;
     color: lightgray;
     padding: 1em;
 }
@@ -19,11 +20,11 @@
 }
 
 .chatareaheader_options ion-icon{
-    font-size: 20px;
+    font-size: 18px;
 }
 
 @media(max-width: 28em){
     .chatareaheader_options ion-icon{
-        font-size: 16px;
+        font-size: 15px;
     }
 }

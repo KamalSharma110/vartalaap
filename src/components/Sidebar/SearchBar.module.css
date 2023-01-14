@@ -1,21 +1,23 @@
 .searchbar{
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #96909038;
+    border-bottom: 1px solid #41404038;
+    height: 50px;
 }
 
 .searchbar input{
     width: 90%;
     outline: none;
     border: none;
-    background-color: #5f5b8e;
+    /* background-color: #5f5b8e; */
+    background: transparent;
     color: white;
-    padding: 0.8em;
+    padding: 1em;
+    font-size: clamp(.82rem, 2.8vw ,.95rem);
 }
 
 .searchbar input::placeholder{
-    color: lightgray;
-    font-size: clamp(.9rem, 2.8vw ,1.02rem);
+    color: white;
 }
 
 .searchbar ion-icon{

@@ -8,6 +8,10 @@ import AuthContext from "./store/auth-store";
 function App() {
   const authCtx = useContext(AuthContext);
 
+  if(authCtx.isLoggedIn)
+  document.getElementsByTagName('body')[0].style.background = 'linear-gradient(to bottom left,#170e5f, #433491, #56382e)';
+  else
+  document.getElementsByTagName('body')[0].style.background = '#dfdfef';
   
   return (
     <Switch>

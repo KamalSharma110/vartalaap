@@ -24,15 +24,15 @@
 }
 
 .chat div>span{
-    color: #3a3a3a;
-    background: white;
+    color: #615e71;
+    background: #1c1932;
     padding: 0.5em 1em;
     border-radius: 0 10px 10px 10px;
 }
 
 .float_right div>span{
     color: white;
-    background: #7e92e7;
+    background: #433491;
     border-radius: 10px 0 10px 10px;
 }
 

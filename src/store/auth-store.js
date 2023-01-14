@@ -46,6 +46,7 @@ export const AuthContextProvider = (props) => {
         })
       );
 
+
       setCurrentUserInfo({
         token: userData.token,
         displayName: userData.displayName,

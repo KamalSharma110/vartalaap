@@ -45,7 +45,7 @@ const UserCardList = () => {
         .sort((a, b) => b.date - a.date)
         .map((userData) => {
           return (
-            <li key={userData.localId}>
+            <li key={userData.localId} style={{margin: '2px'}}>
               <UserCard
                 profilePicture={userData.photoUrl}
                 name={userData.displayName}

@@ -3,6 +3,7 @@
     color: white;
     gap: 1em;
     padding: 0.5em;
+    border-radius: 10px;
     align-items: center;
     cursor: pointer;
     transition: all .5s;
@@ -14,7 +15,7 @@
 }
 
 .contact:hover{
-    background-color: #2f2d52;
+    background-image: linear-gradient(to right, #2f2d52b5, #2f2d521c);
 }
 
 .contact-info{
@@ -27,7 +28,7 @@
 }
 
 .contact-info span:nth-child(1){
-    font-weight: 500;
+    font-weight: 400;
     text-transform: capitalize;
 }
 
