@@ -1,12 +1,17 @@
-import { useContext} from "react";
+import { useContext, useEffect} from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import AuthForm from "./components/AuthForm";
 import Layout from "./components/Layout";
 import AuthContext from "./store/auth-store";
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('G-P7709Y2KKB');
 
 function App() {
   const authCtx = useContext(AuthContext);
+
+  
 
   if(authCtx.isLoggedIn)
   document.getElementsByTagName('body')[0].style.background = 'linear-gradient(to bottom left,#170e5f, #433491, #56382e)';
