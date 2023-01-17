@@ -15,7 +15,7 @@ const SearchBar = () => {
   const searchInputRef = useRef();
 
   const keyDownHandler = (event) => {
-    event.code === "Enter" && handleSearch();
+    event.keyCode === 13 && handleSearch();
   };
 
   const inputChangeHandler = () => {

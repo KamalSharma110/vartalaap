@@ -61,13 +61,16 @@ const AuthForm = () => {
 
         <input type="email" placeholder="email" ref={emailInputRef} />
         <input type="password" placeholder="password" ref={passwordInputRef} />
-        <input type="checkbox" id="show-password" onClick={showPasswordHandler}/>
-        <label htmlFor="show-password" className={classes['show-password_label']}>Show Password</label>
+
+        <div className={classes['show-password-container']}>
+          <input type="checkbox" id="show-password" onClick={showPasswordHandler}/>
+          <label htmlFor="show-password" className={classes['show-password_label']}>Show Password</label>
+        </div>
 
         {!showLogin && (
           <React.Fragment>
-            <input id="avatar" type="file" style={{ display: "none" }}/>
-            <label htmlFor="avatar">
+            <input id="avatar" className={classes.avatar} type="file"/>
+            <label htmlFor="avatar" >
               <img src={Add} alt="add avatar icon" />
               <span>Add an avatar</span>
             </label>
