@@ -6,10 +6,14 @@ import Layout from "./components/Layout";
 import AuthContext from "./store/auth-store";
 import ReactGA from 'react-ga';
 
-ReactGA.initialize('G-P7709Y2KKB');
 
 function App() {
   const authCtx = useContext(AuthContext);
+  
+  useEffect(() => {
+    ReactGA.initialize('G-P7709Y2KKB');
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
 
   
 
