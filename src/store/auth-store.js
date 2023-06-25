@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import ChatContext from "./chat-context";
+import { getAuthUserData } from "../api/utils";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = React.createContext({
   currentUserInfo: {
@@ -7,6 +9,7 @@ const AuthContext = React.createContext({
     displayName: "",
     photoUrl: "",
     localId: "",
+    expirationTime: "",
   },
   isLoggedIn: null,
   login: () => {},
@@ -17,49 +20,42 @@ export const AuthContextProvider = (props) => {
   const [currentUserInfo, setCurrentUserInfo] = useState(
     JSON.parse(localStorage.getItem("currentUserInfo"))
   );
-
+  const navigate = useNavigate();
   const chatCtx = useContext(ChatContext);
   const isLoggedIn = !!currentUserInfo;
 
-  const getAuthUserData = async(token) => {
-    return await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken: token }),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => data.users[0]);
-    };
-    
-    const login = (token) => {
-    getAuthUserData(token).then((userData) => {
+  const login = (token, localId) => {
+    return getAuthUserData(token, localId).then((userData) => {
+      const date = new Date();
+      date.setHours(date.getHours() + 1);
+      const expirationTime = date.toISOString();
+
       localStorage.setItem(
         "currentUserInfo",
         JSON.stringify({
-          token: userData.token,
+          token: token,
           displayName: userData.displayName,
           photoUrl: userData.photoUrl,
           localId: userData.localId,
+          expirationTime: expirationTime,
         })
       );
 
-
       setCurrentUserInfo({
-        token: userData.token,
+        token: token,
         displayName: userData.displayName,
         photoUrl: userData.photoUrl,
         localId: userData.localId,
+        expirationTime: expirationTime,
       });
     });
   };
 
   const logout = () => {
     setCurrentUserInfo(null);
-    chatCtx.dispatchChatState({type: 'LOGGED_OUT'});
+    chatCtx.dispatchChatState({ type: "LOGGED_OUT" });
     localStorage.removeItem("currentUserInfo");
+    navigate('/auth');
   };
 
   return (

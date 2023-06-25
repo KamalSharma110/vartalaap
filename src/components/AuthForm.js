@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
+
 import classes from "./AuthForm.module.css";
 import Add from "../img/addAvatar.png";
 import useHttp from "../hooks/useHttp";
 import Error from "./Error";
+import {BASE_URL} from '../api/api';
 
 const AuthForm = () => {
   const [showLogin, setShowLogin] = useState(true);
@@ -25,48 +27,57 @@ const AuthForm = () => {
     const showPassword = event.target.checked;
     const el = document.querySelector('input[placeholder="password"]');
 
-    if(showPassword)  el.setAttribute('type' ,'text');
-    else  el.setAttribute('type', 'password');
+    if (showPassword) el.setAttribute("type", "text");
+    else el.setAttribute("type", "password");
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async(event) => {
     event.preventDefault();
 
-    if (showLogin) {
-      sendRequest(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU",
-        showLogin
-      );
-    } else {
-      sendRequest(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDJOkOpsUs2msvHNuckU-IXeqd1ff5JwiU",
-        showLogin
-      );
-    }
+    if (showLogin) await sendRequest(`${BASE_URL}auth/login`, showLogin);
+    else await sendRequest(`${BASE_URL}auth/signup`, showLogin);
+
+    setShowLogin(prevState => !prevState);
   };
 
   return (
     <section className={classes["form-container"]}>
-      <h1>Chat App</h1>
+      <h1>Vartalaap</h1>
       <span>{`${showLogin ? "Login" : "Register"}`}</span>
-      <form className={classes.form} onSubmit={submitHandler}>
+      <form className={classes.form} onSubmit={submitHandler} noValidate>
         {!showLogin && (
           <input
             type="text"
             placeholder="display name"
             ref={displayNameInputRef}
-            required
           />
         )}
 
-        <input type="email" placeholder="email" ref={emailInputRef} />
-        <input type="password" placeholder="password" ref={passwordInputRef} />
-        <input type="checkbox" id="show-password" onClick={showPasswordHandler}/>
-        <label htmlFor="show-password" className={classes['show-password_label']}>Show Password</label>
+        <input
+          type="email"
+          placeholder="email"
+          ref={emailInputRef}
+        />
+        <input
+          type="password"
+          placeholder="password"
+          ref={passwordInputRef}
+        />
+        <input
+          type="checkbox"
+          id="show-password"
+          onClick={showPasswordHandler}
+        />
+        <label
+          htmlFor="show-password"
+          className={classes["show-password_label"]}
+        >
+          Show Password
+        </label>
 
         {!showLogin && (
           <React.Fragment>
-            <input id="avatar" type="file" style={{ display: "none" }}/>
+            <input id="avatar" type="file" style={{ display: "none" }} required />
             <label htmlFor="avatar">
               <img src={Add} alt="add avatar icon" />
               <span>Add an avatar</span>

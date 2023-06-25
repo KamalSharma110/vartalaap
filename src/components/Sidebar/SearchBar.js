@@ -1,16 +1,19 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
 import React, { useRef, useState } from "react";
-import { db } from "../../firebase/firebase";
+import ReactDOM from "react-dom";
+
 import classes from "./SearchBar.module.css";
 import UserCard from "./UserCard";
+import { searchUsers } from "../../api/api";
+import ErrorModal from "../ErrorModal";
 
-let searchedUserData;
+let searchedUsers;
 const SearchBar = () => {
   const [hasUser, setHasUser] = useState({ value: false }); //if we use directly a primitive boolean value
   //as state variable, the component will not re-render when setState again and again set state
   //variable to true.
 
   const [closeButton, showCloseButton] = useState(false);
+  const [error, setError] = useState(null);
 
   const searchInputRef = useRef();
 
@@ -23,20 +26,19 @@ const SearchBar = () => {
     else showCloseButton(false);
   };
 
+  const closeButtonHandler = () => {
+    searchInputRef.current.value = "";
+    setHasUser({ value: false });
+    showCloseButton(false);
+  };
+
   const handleSearch = async () => {
-    const usersRef = collection(db, "users");
-    const q = query(
-      usersRef,
-      where("displayName", "==", searchInputRef.current.value.toLowerCase())
-    );
-
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.size === 0) searchedUserData = null;
-
-    querySnapshot.forEach((doc) => {
-      searchedUserData = doc.data();
-    });
+    try {
+      const resData = await searchUsers(
+        searchInputRef.current.value.toLowerCase()
+      );
+      searchedUsers = resData.users;
+    } catch (error) { setError(error); }
 
     setHasUser({ value: true }); //here it causes the component to re-render because every time a new
     //object is being passed and it will be considered different everytime.
@@ -55,25 +57,31 @@ const SearchBar = () => {
         {closeButton && (
           <ion-icon
             name="close-outline"
-            onClick={() => {
-              searchInputRef.current.value = '';
-              setHasUser({ value: false });
-              showCloseButton(false);
-            }}
+            onClick={ closeButtonHandler }
           ></ion-icon>
         )}
       </div>
 
       {hasUser.value &&
-        (searchedUserData ? (
-          <UserCard
-            profilePicture={searchedUserData.photoUrl}
-            name={searchedUserData.displayName}
-            localId={searchedUserData.localId}
-          />
+        (searchedUsers?.length > 0 ? (
+          searchedUsers.map((user) => (
+            <UserCard
+              key={user._id.toString()}
+              profilePicture={user.image}
+              name={user.name}
+              localId={user._id.toString()}
+              onClose={ closeButtonHandler }
+            />
+          ))
         ) : (
           <span className={classes["no-user-found"]}>No users found</span>
         ))}
+
+      {error &&
+        ReactDOM.createPortal(
+          <ErrorModal errorMessage={error.message} onClose = {setError} />,
+          document.getElementsByTagName("body")[0]
+        )}
     </React.Fragment>
   );
 };

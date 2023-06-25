@@ -1,19 +1,17 @@
-import {
-  doc,
-  getDoc,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
-import React, { useContext } from "react";
-import { db } from "../../firebase/firebase";
+import React, { useContext, useState } from "react";
+import ReactDOM from "react-dom";
 
 import AuthContext from "../../store/auth-store";
 import ChatContext from "../../store/chat-context.js";
 import classes from "./UserCard.module.css";
-// import ContactImg from '../../img/contact-profile-pic.jpg';
+import { socket } from "../../App";
+import { BASE_URL, createChat, createRecentChats, getChats } from "../../api/api";
+import ErrorModal from "../ErrorModal";
 
 const UserCard = (props) => {
+  const [lastMessage, setLastMessage] = useState(props.lastMessage);
+  const [error, setError] = useState(null);
+
   const authCtx = useContext(AuthContext);
   const chatCtx = useContext(ChatContext);
   const {
@@ -22,71 +20,85 @@ const UserCard = (props) => {
     displayName,
   } = authCtx.currentUserInfo;
 
-  const getChats = async (combinedId) => {
-    const docRef = doc(db, "chats", combinedId);
-    const docSnap = await getDoc(docRef);
-  
-    if (docSnap.exists()) {
-      return docSnap.data().messages;
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
-  };
+  socket?.on("lastMsg_update", (data) => {
+    const { senderId, localId: receiverId } = data;
 
-  const clickHandler = async () => {
+    if (currentUserId === receiverId || currentUserId === senderId)
+      if (receiverId === props.localId || senderId === props.localId)
+        setLastMessage(data.message);
+  });
+
+  const clickHandler = async (event) => {
+    if(props.onClose) props.onClose();
+
+    const el = document.getElementsByClassName(`${classes.contact} ${classes.active}`)[0];
+    if(el)  el.className = `${classes.contact}`;
+    event.target.className = `${classes.contact} ${classes.active}`;
+
     const combinedId =
       currentUserId > props.localId
         ? currentUserId + props.localId
         : props.localId + currentUserId;
 
-    const res = await getDoc(doc(db, "chats", combinedId));
+    try {
+      const resData = await getChats(combinedId);
 
-    if (!res.exists()) {
-      await setDoc(doc(db, "chats", combinedId), {
-        messages: [],
-      });
+      if (!resData) {
+        await createChat(combinedId);
 
-      await updateDoc(doc(db, "userChats", currentUserId), {
-        [combinedId + ".userInfo"]: {
+        await createRecentChats({
+          currentUserId: currentUserId,
           localId: props.localId,
           photoUrl: props.profilePicture,
           displayName: props.name,
-        },
-        [combinedId + ".date"]: serverTimestamp(),
-      });
+          date: new Date(),
+          combinedId: combinedId,
+        });
 
-      await updateDoc(doc(db, "userChats", props.localId), {
-        [combinedId + ".userInfo"]: {
+        await createRecentChats({
+          currentUserId: props.localId,
           localId: currentUserId,
           photoUrl: photoUrl,
           displayName: displayName,
-        },
-        [combinedId + ".date"]: serverTimestamp(),
-      });
-    }
+          date: new Date(),
+          combinedId: combinedId,
+        });
+      }
 
-    const messages = await getChats(combinedId);
-    
-    chatCtx.dispatchChatState({
-      type: "USER_CHANGED",
-      payload: {
-        combinedId,
-        messages,
-        photoUrl: props.profilePicture,
-        localId: props.localId,
-      },
-    });
+      const messages = resData?.messages || [];
+
+      chatCtx.dispatchChatState({
+        type: "USER_CHANGED",
+        payload: {
+          combinedId,
+          messages,
+          photoUrl: props.profilePicture,
+          localId: props.localId,
+        },
+      });
+    } catch (error) {
+      setError(error);
+    }
   };
 
   return (
-    <div className={classes.contact} onClick={clickHandler}>
-      <img src={props.profilePicture} alt="contact-1" />
-      <div className={classes["contact-info"]}>
-        <span>{props.name}</span>
-        <span>{props.lastMessage}</span>
+    <>
+      <div className={classes.contact} onClick={(event) => clickHandler(event)}>
+        <img
+          src={BASE_URL + props.profilePicture}
+          alt="contact-1"
+        />
+        <div className={classes["contact-info"]}>
+          <span>{props.name}</span>
+          <span>{lastMessage}</span>
+        </div>
       </div>
-    </div>
+      {error &&
+        ReactDOM.createPortal(
+          <ErrorModal errorMessage={error.message} onClose = {setError} />,
+          document.getElementsByTagName("body")[0]
+        )}
+    </>
   );
 };
 

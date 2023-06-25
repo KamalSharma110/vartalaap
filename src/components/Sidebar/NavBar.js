@@ -3,6 +3,7 @@ import AuthContext from "../../store/auth-store";
 
 // import dp from "../../img/profile-pic.jpg";
 import classes from "./NavBar.module.css";
+import { BASE_URL } from "../../api/api";
 
 const NavBar = () => {
   const [currentUser, setCurrentUser] = useState({
@@ -22,10 +23,10 @@ const NavBar = () => {
 
   return (
     <div className={classes.nav}>
-      <span>Chat App</span>
+      <span>Vartalaap</span>
       <div className={classes["nav_user-info"]}>
         <div>
-          <img src={currentUser.photoUrl} alt="current user" />
+          <img src={BASE_URL + currentUser.photoUrl} alt="current user" />
           <span>{currentUser.displayName}</span>
         </div>
         <button

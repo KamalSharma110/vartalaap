@@ -10,6 +10,7 @@ body{
     height: 100vh;
     /* background: linear-gradient(to bottom left,#170e5f, #433491, #56382e); */
     /* background-color: #dfdfef; */
+    position: relative;
 }
 
 img{

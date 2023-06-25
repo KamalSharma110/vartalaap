@@ -1,6 +1,5 @@
 import React, { useReducer } from "react";
 
-
 const ChatContext = React.createContext({
   chats: [],
   user: {},

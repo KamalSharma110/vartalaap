@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import classes from "./Chat.module.css";
+import { BASE_URL } from "../../api/api";
 
 const Chat = (props) => {
   const { received, photoUrl, text, date, img } = props;
@@ -15,13 +16,13 @@ const Chat = (props) => {
       className={`${classes.chat} ${received ? "" : classes["float_right"]}`}
       style={{ alignItems: `${received ? "start" : "end"}` }}
     >
-      <img src={img} alt="" id={classes["received_image"]} />
+      <img src={BASE_URL + img} alt="" id={classes["received_image"]} />
       <div>
-        <img src={photoUrl} alt="" />
+        <img src={BASE_URL + photoUrl} alt="" />
         {text.length !== 0 && <span>{text}</span>}
       </div>
       <span style={{ float: `${!received ? "right" : "none"}` }}>
-        {date.toDate().toLocaleTimeString()}
+        {new Date(date).toLocaleTimeString()}
       </span>
     </div>
   );

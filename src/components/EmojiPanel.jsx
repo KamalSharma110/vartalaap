@@ -1,13 +1,14 @@
-import classes from "./EmojiPanel.module.css";
 import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
+
+import classes from "./EmojiPanel.module.css";
 
 let emojiData,
   categoryData,
   isSearching = false;
 const EmojiPanel = (props) => {
   let index = 0, clear; //this shoudn't be global because we need it to be 0 to make emojis everytime this component runs
-  const [emojiState, setEmojiState] = useState(null);
+  const [emojiState, setEmojiState] = useState([]);
 
   useEffect(() => {
     const fetchEmojis = async () => {

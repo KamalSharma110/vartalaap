@@ -1,31 +1,30 @@
+import { useContext, useEffect, useState } from "react";
+
 import classes from "./ChatAreaHeader.module.css";
-import { useContext, useEffect } from "react";
 import ChatContext from "../../store/chat-context";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
+import { getAuthUserData } from "../../api/utils";
+import AuthContext from "../../store/auth-store";
 
 
-let displayName;
 const ChatAreaHeader = () => {
+  const [name, setName] = useState('');
   const chatCtx = useContext(ChatContext);
+  const authCtx = useContext(AuthContext);
   const { localId } = chatCtx.user;
+  const { token }  = authCtx.currentUserInfo;
   
   useEffect(() => {
     async function getName() {
-      displayName = (await getDoc(doc(db, "users", localId))).data().displayName;
+      const user = await getAuthUserData(token, localId);
+      setName(user.displayName);
     }
 
     if(localId) getName();
-    
-    return () => {
-      displayName = '';
-    };
-
-  }, [localId]); 
+  }, [localId, token]); 
 
   return (
     <div className={classes.chatareaheader}>
-      <span>{displayName || ''}</span>
+      <span>{name || ''}</span>
       <div className={classes["chatareaheader_options"]}>
         <ion-icon name="videocam-sharp"></ion-icon>
         <ion-icon name="person-add"></ion-icon>

@@ -14,7 +14,7 @@
     height: 45px;
 }
 
-.contact:hover{
+.contact:hover, .active{
     background-image: linear-gradient(to right, #2f2d52b5, #2f2d521c);
 }
 
