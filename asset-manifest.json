@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/vartalaap/static/css/main.094a3f51.css",
+    "main.js": "/vartalaap/static/js/main.d497a4ee.js",
+    "index.html": "/vartalaap/index.html",
+    "main.094a3f51.css.map": "/vartalaap/static/css/main.094a3f51.css.map",
+    "main.d497a4ee.js.map": "/vartalaap/static/js/main.d497a4ee.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.094a3f51.css",
+    "static/js/main.d497a4ee.js"
+  ]
+}
