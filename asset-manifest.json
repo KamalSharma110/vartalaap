@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/vartalaap/static/css/main.094a3f51.css",
-    "main.js": "/vartalaap/static/js/main.26577d32.js",
+    "main.js": "/vartalaap/static/js/main.df0705eb.js",
     "index.html": "/vartalaap/index.html",
     "main.094a3f51.css.map": "/vartalaap/static/css/main.094a3f51.css.map",
-    "main.26577d32.js.map": "/vartalaap/static/js/main.26577d32.js.map"
+    "main.df0705eb.js.map": "/vartalaap/static/js/main.df0705eb.js.map"
   },
   "entrypoints": [
     "static/css/main.094a3f51.css",
-    "static/js/main.26577d32.js"
+    "static/js/main.df0705eb.js"
   ]
 }
